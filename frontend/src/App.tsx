@@ -1,22 +1,20 @@
-"use client";
-
 import { useState } from "react";
+import "./App.css";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://174.138.22.253:5004";
 
 interface DataItem {
   id: number;
   name: string;
-  created_at: string;
 }
 
-export default function Home() {
+function App() {
   const [data, setData] = useState<DataItem[]>([]);
   const [newItemName, setNewItemName] = useState("");
   const [healthStatus, setHealthStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
-  console.log(API_URL);
+  const [message, setMessage] = useState("WELCOME");
+
   const checkHealth = async () => {
     setLoading(true);
     try {
@@ -74,32 +72,26 @@ export default function Home() {
 
   return (
     <div className="app-container">
-      <h1>🚀 Next.js Fullstack Demo</h1>
-      <p className="subtitle">
-        Full-stack Next.js app with API routes at {API_URL}
-      </p>
+      <h1>🚀 Backend Interaction Demo</h1>
+      <p className="subtitle">Connect to Express API at {API_URL}</p>
 
       {/* Health Check Section */}
       <div className="section">
-        <div className="flex justify-between items-center">
-          <h2>Health Check</h2>
-          <button onClick={checkHealth} disabled={loading}>
-            Check Backend Health
-          </button>
-        </div>
+        <h2>Health Check</h2>
+        <button onClick={checkHealth} disabled={loading}>
+          Check Backend Health
+        </button>
         {healthStatus && (
           <div className="status-box success">{healthStatus}</div>
         )}
       </div>
 
       {/* Get Data Section */}
-      <div className="section ">
-        <div className="flex justify-between items-center">
-          <h2>Get Data</h2>
-          <button onClick={fetchData} disabled={loading}>
-            Fetch Data from Backend
-          </button>
-        </div>
+      <div className="section">
+        <h2>Get Data</h2>
+        <button onClick={fetchData} disabled={loading}>
+          Fetch Data from Backend
+        </button>
         {data?.length > 0 && (
           <div className="data-list">
             {data?.map((item) => (
@@ -144,3 +136,5 @@ export default function Home() {
     </div>
   );
 }
+
+export default App;
