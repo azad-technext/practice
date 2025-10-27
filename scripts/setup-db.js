@@ -1,6 +1,15 @@
 const fs = require("fs");
 const path = require("path");
-const db = require("../src/config/database");
+const { Pool } = require("pg");
+require("dotenv").config({ path: '.env.local' });
+
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_DATABASE,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+});
 
 async function setupDatabase() {
   try {
@@ -11,7 +20,7 @@ async function setupDatabase() {
     const schema = fs.readFileSync(schemaPath, "utf8");
 
     // Execute the schema
-    await db.query(schema);
+    await pool.query(schema);
 
     console.log("✅ Database setup completed successfully!");
     console.log("Tables created and sample data inserted.");
