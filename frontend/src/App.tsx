@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 
-const API_URL = "http://174.138.22.253:5004";
+const API_URL = "http://localhost:5004";
 
 interface DataItem {
   id: number;
@@ -92,9 +92,9 @@ function App() {
         <button onClick={fetchData} disabled={loading}>
           Fetch Data from Backend
         </button>
-        {data.length > 0 && (
+        {data?.length > 0 && (
           <div className="data-list">
-            {data.map((item) => (
+            {data?.map((item) => (
               <div key={item.id} className="data-item">
                 <strong>ID:</strong> {item.id} | <strong>Name:</strong>{" "}
                 {item.name}
