@@ -1,20 +1,21 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://174.138.22.253";
 
 interface DataItem {
   id: number;
   name: string;
+  created_at: string;
 }
 
 export default function Home() {
   const [data, setData] = useState<DataItem[]>([]);
-  const [newItemName, setNewItemName] = useState('');
-  const [healthStatus, setHealthStatus] = useState<string>('');
+  const [newItemName, setNewItemName] = useState("");
+  const [healthStatus, setHealthStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   const checkHealth = async () => {
     setLoading(true);
@@ -22,12 +23,12 @@ export default function Home() {
       const response = await fetch(`${API_URL}/api/health`);
       const result = await response.json();
       setHealthStatus(`Status: ${result.status} | Time: ${result.timestamp}`);
-      setMessage('');
+      setMessage("");
     } catch {
       setMessage(
-        'Error: Could not connect to backend. Make sure it\'s running!'
+        "Error: Could not connect to backend. Make sure it's running!"
       );
-      setHealthStatus('');
+      setHealthStatus("");
     }
     setLoading(false);
   };
@@ -38,35 +39,35 @@ export default function Home() {
       const response = await fetch(`${API_URL}/api/data`);
       const result = await response.json();
       setData(result.data);
-      setMessage('Data fetched successfully!');
+      setMessage("Data fetched successfully!");
     } catch {
-      setMessage('Error fetching data. Is the backend running?');
+      setMessage("Error fetching data. Is the backend running?");
     }
     setLoading(false);
   };
 
   const createData = async () => {
     if (!newItemName.trim()) {
-      setMessage('Please enter a name!');
+      setMessage("Please enter a name!");
       return;
     }
 
     setLoading(true);
     try {
       const response = await fetch(`${API_URL}/api/data`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ name: newItemName }),
       });
       const result = await response.json();
       setMessage(`Created: ${result.data.name}`);
-      setNewItemName('');
+      setNewItemName("");
       // Optionally refresh the data
       fetchData();
     } catch {
-      setMessage('Error creating data. Is the backend running?');
+      setMessage("Error creating data. Is the backend running?");
     }
     setLoading(false);
   };
@@ -74,30 +75,36 @@ export default function Home() {
   return (
     <div className="app-container">
       <h1>🚀 Next.js Fullstack Demo</h1>
-      <p className="subtitle">Full-stack Next.js app with API routes at {API_URL}</p>
+      <p className="subtitle">
+        Full-stack Next.js app with API routes at {API_URL}
+      </p>
 
       {/* Health Check Section */}
       <div className="section">
-        <h2>Health Check</h2>
-        <button onClick={checkHealth} disabled={loading}>
-          Check Backend Health
-        </button>
+        <div className="flex justify-between items-center">
+          <h2>Health Check</h2>
+          <button onClick={checkHealth} disabled={loading}>
+            Check Backend Health
+          </button>
+        </div>
         {healthStatus && (
           <div className="status-box success">{healthStatus}</div>
         )}
       </div>
 
       {/* Get Data Section */}
-      <div className="section">
-        <h2>Get Data</h2>
-        <button onClick={fetchData} disabled={loading}>
-          Fetch Data from Backend
-        </button>
+      <div className="section ">
+        <div className="flex justify-between items-center">
+          <h2>Get Data</h2>
+          <button onClick={fetchData} disabled={loading}>
+            Fetch Data from Backend
+          </button>
+        </div>
         {data?.length > 0 && (
           <div className="data-list">
             {data?.map((item) => (
               <div key={item.id} className="data-item">
-                <strong>ID:</strong> {item.id} | <strong>Name:</strong>{' '}
+                <strong>ID:</strong> {item.id} | <strong>Name:</strong>{" "}
                 {item.name}
               </div>
             ))}
@@ -126,7 +133,7 @@ export default function Home() {
       {message && (
         <div
           className={`message ${
-            message.includes('Error') ? 'error' : 'success'
+            message.includes("Error") ? "error" : "success"
           }`}
         >
           {message}
