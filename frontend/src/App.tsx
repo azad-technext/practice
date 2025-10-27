@@ -13,7 +13,7 @@ function App() {
   const [newItemName, setNewItemName] = useState("");
   const [healthStatus, setHealthStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState("WELCOME");
 
   const checkHealth = async () => {
     setLoading(true);
