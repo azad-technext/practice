@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://174.138.22.253";
+const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 interface DataItem {
   id: number;
@@ -16,7 +16,7 @@ export default function Home() {
   const [healthStatus, setHealthStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
-
+  console.log(API_URL);
   const checkHealth = async () => {
     setLoading(true);
     try {
