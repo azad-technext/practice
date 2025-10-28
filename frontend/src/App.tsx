@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.css";
+import { Link } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://174.138.22.253:5004";
 
@@ -74,7 +75,60 @@ function App() {
     <div className="app-container">
       <h1>🚀 Backend Interaction Demo</h1>
       <p className="subtitle">Connect to Express API at {API_URL}</p>
-
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100%",
+            marginTop: "2rem",
+            gap: "2rem",
+          }}
+        >
+          <Link
+            to="/home"
+            style={{
+              backgroundColor: "blue",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "5px",
+            }}
+          >
+            Home
+          </Link>
+          <Link
+            to="/page-two"
+            style={{
+              backgroundColor: "red",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "5px",
+            }}
+          >
+            Page Two
+          </Link>
+          <Link
+            to="/page-three"
+            style={{
+              backgroundColor: "green",
+              color: "white",
+              padding: "0.5rem 1rem",
+              borderRadius: "5px",
+            }}
+          >
+            Page Three
+          </Link>
+        </div>
+      </div>
       {/* Health Check Section */}
       <div className="section">
         <h2>Health Check</h2>
