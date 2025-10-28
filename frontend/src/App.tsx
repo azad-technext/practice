@@ -7,11 +7,13 @@ const API_URL = import.meta.env.VITE_API_URL || "http://174.138.22.253:5004";
 interface DataItem {
   id: number;
   name: string;
+  status: string;
 }
 
 function App() {
   const [data, setData] = useState<DataItem[]>([]);
   const [newItemName, setNewItemName] = useState("");
+  const [status, setStatus] = useState("");
   const [healthStatus, setHealthStatus] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("WELCOME");
@@ -58,11 +60,12 @@ function App() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: newItemName }),
+        body: JSON.stringify({ name: newItemName, status: status }),
       });
       const result = await response.json();
       setMessage(`Created: ${result.data.name}`);
       setNewItemName("");
+      setStatus("");
       // Optionally refresh the data
       fetchData();
     } catch {
@@ -151,7 +154,7 @@ function App() {
             {data?.map((item) => (
               <div key={item.id} className="data-item">
                 <strong>ID:</strong> {item.id} | <strong>Name:</strong>{" "}
-                {item.name}
+                {item.name} | <strong>Status:</strong> {item.status}
               </div>
             ))}
           </div>
@@ -167,6 +170,13 @@ function App() {
             value={newItemName}
             onChange={(e) => setNewItemName(e.target.value)}
             placeholder="Enter item name"
+            disabled={loading}
+          />
+          <input
+            type="text"
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            placeholder="Enter Status"
             disabled={loading}
           />
           <button onClick={createData} disabled={loading}>

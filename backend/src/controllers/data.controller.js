@@ -15,15 +15,16 @@ exports.getAllData = async (req, res) => {
 
 // POST a new item
 exports.createItem = async (req, res) => {
-  const { name } = req.body;
+  const { name, status } = req.body;
   if (!name) {
     return res.status(400).json({ error: "Name is required" });
   }
-  console.log(name);
+  console.log(name, status);
   try {
-    const query = "INSERT INTO name_data (name) VALUES($1) RETURNING *;";
-    console.log("Executing query:", query, "with params:", [name]);
-    const result = await db.query(query, [name]);
+    console.log("with params:", [name, status]);
+    const query =
+      "INSERT INTO name_data (name, status) VALUES($1, $2) RETURNING *;";
+    const result = await db.query(query, [name, status]);
     res
       .status(201)
       .json({ success: true, message: "Item created", data: result.rows[0] });
